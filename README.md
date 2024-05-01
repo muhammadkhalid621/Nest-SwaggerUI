@@ -24,7 +24,7 @@
 
 ## Description
 
-http://localhost:3005/api#/
+http://localhost:3005/api-docs#/
 
 ## Installation
 
