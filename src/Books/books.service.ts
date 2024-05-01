@@ -17,30 +17,41 @@ export class BooksService {
   }
 
   async findById(bookId: string): Promise<Book> {
-    const book = await this.bookModel.findOne({ bookId }).lean();
+    const book = await this.bookModel.findById(bookId).lean();
     if (!book) {
-      throw new NotFoundException(`No existe el libro con ID ${bookId}`);
+      throw new NotFoundException(`No Book Found ${bookId}`);
     }
     return book;
   }
 
   async create(book: CreateBookDto): Promise<Book> {
     const bookToCreate: Book = { ...book, bookId: randomUUID() };
+    if (!book?.title) {
+      throw new NotFoundException(`Title Required`);
+    }
+
+    if (!book?.author) {
+      throw new NotFoundException(`Author Required`);
+    }
+
+    if (!book?.isbn) {
+      throw new NotFoundException(`isBN Required`);
+    }
     return this.bookModel.create(bookToCreate);
   }
 
   async updateById(bookId: string, bookUpdates: UpdateBookDto): Promise<Book> {
     return this.bookModel
-      .findOneAndUpdate({ bookId }, bookUpdates, {
+      .findByIdAndUpdate(bookId, bookUpdates, {
         new: true,
       })
       .lean();
   }
 
   async remove(bookId: string): Promise<{ message: string }> {
-    const result = await this.bookModel.deleteOne({ bookId });
-    if (result.deletedCount === 0) {
-      throw new NotFoundException(`No existe el libro con ID ${bookId}`);
+    const result = await this.bookModel.findByIdAndDelete(bookId);
+    if (!result) {
+      throw new NotFoundException(`No Book Found ${bookId}`);
     }
     return { message: 'Deleted Successfully' };
   }

@@ -1,35 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsArray,
-  IsISBN,
-} from 'class-validator';
+import { IsString, IsOptional, IsArray, IsISBN } from 'class-validator';
 
 export class CreateBookDto {
   @ApiProperty({
+    required: true,
     example: "Harry Potter and the Philosopher's Stone",
     description: 'The title of the book',
   })
-  @IsNotEmpty()
-  @IsString()
-  readonly title: string;
+  // @IsNotEmpty({ message: 'Title should not be empty' })
+  @IsString({ message: 'Title should be a string' })
+  title: string;
 
   @ApiProperty({
+    required: true,
     example: 'J.K. Rowling',
     description: 'The author of the book',
   })
-  @IsNotEmpty()
-  @IsString()
-  readonly author: string;
+  // @IsNotEmpty({ message: 'Author should not be empty' })
+  @IsString({ message: 'Author should be a string' })
+  author: string;
 
   @ApiProperty({
+    required: true,
     example: '978-0590353403',
     description: 'The ISBN of the book',
   })
-  @IsNotEmpty()
-  @IsString()
+  // @IsNotEmpty({ message: 'ISBN should not be empty' })
+  @IsString({ message: 'ISBN should be a string' })
   @IsISBN()
   isbn: string;
 
@@ -39,7 +36,7 @@ export class CreateBookDto {
     required: false,
   })
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
+  @IsArray({ message: 'Genres should be an array' })
+  @IsString({ each: true, message: 'Each genre should be a string' })
   genres?: string[];
 }

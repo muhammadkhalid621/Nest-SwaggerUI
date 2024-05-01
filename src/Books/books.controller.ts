@@ -11,6 +11,7 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateBookDto } from './dto/create-books.dto';
@@ -36,6 +37,9 @@ export class BooksController {
   }
 
   @Get(':bookId')
+  @ApiParam({
+    name: 'bookId',
+  })
   @ApiOperation({
     description: 'Get a book by bookId.',
   })
@@ -56,7 +60,9 @@ export class BooksController {
   async create(@Body() book: CreateBookDto): Promise<Book> {
     return this.booksService.create(book);
   }
-
+  @ApiParam({
+    name: 'bookId',
+  })
   @Patch(':bookId')
   @ApiOperation({
     description: 'Update a book by bookId.',
@@ -73,6 +79,9 @@ export class BooksController {
   }
 
   @Delete(':bookId')
+  @ApiParam({
+    name: 'bookId',
+  })
   @ApiOperation({
     description: 'Delete a book by bookId.',
   })
