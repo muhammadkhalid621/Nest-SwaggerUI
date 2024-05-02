@@ -7,13 +7,13 @@ async function bootstrap() {
 
   // Swagger Configuration
   const config = new DocumentBuilder()
-    .setTitle('Your API')
-    .setDescription('API description')
+    .setTitle('Nest/Swagger UI')
+    .setDescription('Nest/Swagger UI')
     .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(3005);
 }
